@@ -1,55 +1,126 @@
-import { AbsoluteFill, Artifact, useCurrentFrame, useVideoConfig } from "remotion";
-import { loadFont } from "@remotion/google-fonts/SpaceMono";
+import { AbsoluteFill, Artifact, useCurrentFrame, Sequence } from "remotion";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
+import { Audio } from "@remotion/media";
 
-const LoaderDots = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+import { Background } from "./scenes/Background";
+import { HeroScene } from "./scenes/HeroScene";
+import { CoworkScene } from "./scenes/CoworkScene";
+import { ConnectorsScene } from "./scenes/ConnectorsScene";
+import { PlatformScene } from "./scenes/PlatformScene";
+import { TaglineScene } from "./scenes/TaglineScene";
 
-  const dot = (index: number) => {
-    const phase = (frame / fps) * 2 * Math.PI + index * 0.8;
-    return 0.35 + Math.max(0, Math.sin(phase)) * 0.65;
-  };
+// Audio assets
+const BG_MUSIC = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/music/1773249227750_zdfpdqontv_music_Modern__upbeat_tech_.mp3";
+const SFX_WHOOSH = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1773249231898_8nlgwwveoce_sfx_Subtle_modern_tech_UI_whoosh_t.mp3";
+const SFX_POP = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1773249245074_itmi1axapod_sfx_Soft_digital_pop_notification_.mp3";
 
-  return (
-    <span className="inline-flex gap-1">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="inline-block text-sky-300"
-          style={{ opacity: dot(i) }}
-        >
-          .
-        </span>
-      ))}
-    </span>
-  );
-};
+// Scene durations (in frames at 30fps)
+const HERO_DURATION = 120;       // 4s
+const COWORK_DURATION = 150;     // 5s
+const CONNECTORS_DURATION = 150; // 5s
+const PLATFORM_DURATION = 150;   // 5s
+const TAGLINE_DURATION = 150;    // 5s
+const TRANSITION_DURATION = 18;  // 0.6s
 
 export const Main: React.FC = () => {
-  const { fontFamily } = loadFont();
   const frame = useCurrentFrame();
+
   return (
     <>
-      {/* Leave this here to generate a thumbnail */}
+      {/* Thumbnail artifact */}
       {frame === 0 && (
         <Artifact content={Artifact.Thumbnail} filename="thumbnail.jpeg" />
       )}
-      <AbsoluteFill className="flex items-center justify-center bg-[#0f1115]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.28),transparent_45%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.2),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:48px_48px] opacity-40" />
-        <div
-          className="flex flex-col items-center gap-4 text-center text-white drop-shadow-[0_12px_32px_rgba(0,0,0,0.55)]"
-          style={{ fontFamily, fontWeight: 700, letterSpacing: "0.01em" }}
-        >
-          <div className="text-4xl md:text-5xl font-bold">
-            <span className="font-extrabold text-sky-300">TypeFrames</span> is
-            building your video
-            <LoaderDots />
-          </div>
-          <div className="text-base md:text-lg text-white/70">
-            Rendering scenes, timing transitions, and polishing frames.
-          </div>
-        </div>
+
+      <AbsoluteFill>
+        {/* Persistent animated background */}
+        <Background />
+
+        {/* Scenes with transitions */}
+        <TransitionSeries>
+          {/* Scene 1: Hero */}
+          <TransitionSeries.Sequence durationInFrames={HERO_DURATION}>
+            <AbsoluteFill>
+              <HeroScene />
+            </AbsoluteFill>
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 2: Cowork */}
+          <TransitionSeries.Sequence durationInFrames={COWORK_DURATION}>
+            <AbsoluteFill>
+              <CoworkScene />
+            </AbsoluteFill>
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={slide({ direction: "from-right" })}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 3: Connectors */}
+          <TransitionSeries.Sequence durationInFrames={CONNECTORS_DURATION}>
+            <AbsoluteFill>
+              <ConnectorsScene />
+            </AbsoluteFill>
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 4: Platform */}
+          <TransitionSeries.Sequence durationInFrames={PLATFORM_DURATION}>
+            <AbsoluteFill>
+              <PlatformScene />
+            </AbsoluteFill>
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 5: Tagline */}
+          <TransitionSeries.Sequence durationInFrames={TAGLINE_DURATION}>
+            <AbsoluteFill>
+              <TaglineScene />
+            </AbsoluteFill>
+          </TransitionSeries.Sequence>
+        </TransitionSeries>
+
+        {/* Background music */}
+        <Audio
+          src={BG_MUSIC}
+          volume={(f: number) => {
+            // Fade in over first second, fade out over last 2 seconds
+            const totalFrames = 648;
+            if (f < 30) return (f / 30) * 0.25;
+            if (f > totalFrames - 60) return ((totalFrames - f) / 60) * 0.25;
+            return 0.25;
+          }}
+        />
+
+        {/* Transition whoosh SFX */}
+        <Sequence from={HERO_DURATION - TRANSITION_DURATION / 2}>
+          <Audio src={SFX_WHOOSH} volume={0.15} />
+        </Sequence>
+        <Sequence from={HERO_DURATION + COWORK_DURATION - TRANSITION_DURATION * 1.5}>
+          <Audio src={SFX_WHOOSH} volume={0.12} />
+        </Sequence>
+        <Sequence from={HERO_DURATION + COWORK_DURATION + CONNECTORS_DURATION - TRANSITION_DURATION * 2.5}>
+          <Audio src={SFX_WHOOSH} volume={0.12} />
+        </Sequence>
+        <Sequence from={HERO_DURATION + COWORK_DURATION + CONNECTORS_DURATION + PLATFORM_DURATION - TRANSITION_DURATION * 3.5}>
+          <Audio src={SFX_POP} volume={0.2} />
+        </Sequence>
       </AbsoluteFill>
     </>
   );
