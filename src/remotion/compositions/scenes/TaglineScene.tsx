@@ -13,16 +13,12 @@ const CLAUDE_LOGO_SVG = `data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%
 export const TaglineScene: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Logo comes back small
   const logoScale = interpolate(frame, [0, 20], [0.3, 1], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.back(1.8)),
   });
-  const logoOpacity = interpolate(frame, [0, 15], [0, 1], {
-    extrapolateRight: "clamp",
-  });
+  const logoOpacity = interpolate(frame, [0, 15], [0, 1], { extrapolateRight: "clamp" });
 
-  // Big glow
   const glowScale = interpolate(frame, [5, 50], [0.5, 2.5], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
@@ -31,19 +27,13 @@ export const TaglineScene: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // CTA
-  const ctaOpacity = interpolate(frame, [55, 70], [0, 1], {
-    extrapolateRight: "clamp",
-  });
+  const ctaOpacity = interpolate(frame, [55, 70], [0, 1], { extrapolateRight: "clamp" });
   const ctaY = interpolate(frame, [55, 70], [15, 0], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
   });
 
-  // URL
-  const urlOpacity = interpolate(frame, [65, 80], [0, 0.5], {
-    extrapolateRight: "clamp",
-  });
+  const urlOpacity = interpolate(frame, [65, 80], [0, 0.5], { extrapolateRight: "clamp" });
 
   return (
     <div
@@ -61,8 +51,8 @@ export const TaglineScene: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          width: 300,
-          height: 300,
+          width: 450,
+          height: 450,
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(26, 115, 232, 0.35), transparent 65%)",
           transform: `scale(${glowScale})`,
@@ -75,10 +65,10 @@ export const TaglineScene: React.FC = () => {
         style={{
           transform: `scale(${logoScale})`,
           opacity: logoOpacity,
-          marginBottom: 28,
+          marginBottom: 40,
         }}
       >
-        <Img src={CLAUDE_LOGO_SVG} style={{ width: 56, height: 56 }} />
+        <Img src={CLAUDE_LOGO_SVG} style={{ width: 80, height: 80 }} />
       </div>
 
       {/* Tagline */}
@@ -88,13 +78,13 @@ export const TaglineScene: React.FC = () => {
         ease="back.out(1.4)"
         startFrom={15}
         style={{
-          fontSize: 64,
+          fontSize: 96,
           fontWeight: 800,
           color: "#141413",
           letterSpacing: "-0.03em",
           lineHeight: 1.1,
           textAlign: "center",
-          marginBottom: 8,
+          marginBottom: 12,
         }}
       >
         <span>Think fast,</span>
@@ -106,31 +96,31 @@ export const TaglineScene: React.FC = () => {
         ease="elastic.out(1, 0.4)"
         startFrom={30}
         style={{
-          fontSize: 64,
+          fontSize: 96,
           fontWeight: 800,
           color: "#1A73E8",
           letterSpacing: "-0.03em",
           lineHeight: 1.1,
           textAlign: "center",
-          marginBottom: 32,
+          marginBottom: 48,
         }}
       >
         <span>build faster</span>
       </WaveText>
 
-      {/* CTA button */}
+      {/* CTA */}
       <div
         style={{
           opacity: ctaOpacity,
           transform: `translateY(${ctaY}px)`,
-          padding: "14px 36px",
-          borderRadius: 12,
+          padding: "20px 52px",
+          borderRadius: 16,
           backgroundColor: "#141413",
           color: "white",
-          fontSize: 17,
+          fontSize: 24,
           fontWeight: 700,
           letterSpacing: "-0.01em",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+          boxShadow: "0 6px 24px rgba(0,0,0,0.15)",
         }}
       >
         Try Claude Free →
@@ -139,9 +129,9 @@ export const TaglineScene: React.FC = () => {
       {/* URL */}
       <div
         style={{
-          marginTop: 20,
+          marginTop: 28,
           opacity: urlOpacity,
-          fontSize: 15,
+          fontSize: 22,
           fontWeight: 500,
           color: "#141413",
           letterSpacing: "0.02em",

@@ -13,7 +13,6 @@ const CLAUDE_LOGO_SVG = `data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%
 export const HeroScene: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Logo animation
   const logoScale = interpolate(frame, [0, 25], [0.5, 1], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.back(1.6)),
@@ -27,7 +26,6 @@ export const HeroScene: React.FC = () => {
     easing: Easing.out(Easing.cubic),
   });
 
-  // Badge animation
   const badgeY = interpolate(frame, [35, 55], [20, 0], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
@@ -36,7 +34,6 @@ export const HeroScene: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Subtle glow ring behind logo
   const ringScale = interpolate(frame, [0, 40], [0.3, 1.1], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
@@ -61,8 +58,8 @@ export const HeroScene: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          width: 280,
-          height: 280,
+          width: 420,
+          height: 420,
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(26, 115, 232, 0.3), transparent 70%)",
           transform: `scale(${ringScale})`,
@@ -75,10 +72,10 @@ export const HeroScene: React.FC = () => {
         style={{
           transform: `scale(${logoScale}) rotate(${logoRotation}deg)`,
           opacity: logoOpacity,
-          marginBottom: 32,
+          marginBottom: 48,
         }}
       >
-        <Img src={CLAUDE_LOGO_SVG} style={{ width: 88, height: 88 }} />
+        <Img src={CLAUDE_LOGO_SVG} style={{ width: 130, height: 130 }} />
       </div>
 
       {/* Brand name */}
@@ -88,12 +85,12 @@ export const HeroScene: React.FC = () => {
         ease="power3.out"
         startFrom={12}
         style={{
-          fontSize: 72,
+          fontSize: 108,
           fontWeight: 800,
           color: "#141413",
           letterSpacing: "-0.03em",
           lineHeight: 1,
-          marginBottom: 16,
+          marginBottom: 24,
         }}
       >
         <span>Claude</span>
@@ -105,7 +102,7 @@ export const HeroScene: React.FC = () => {
         duration={0.6}
         startFrom={28}
         style={{
-          fontSize: 24,
+          fontSize: 36,
           fontWeight: 500,
           color: "#141413",
           opacity: 0.6,
@@ -118,15 +115,15 @@ export const HeroScene: React.FC = () => {
       {/* "by Anthropic" badge */}
       <div
         style={{
-          marginTop: 28,
+          marginTop: 42,
           transform: `translateY(${badgeY}px)`,
           opacity: badgeOpacity,
-          padding: "8px 20px",
+          padding: "12px 30px",
           borderRadius: 100,
           border: "1px solid rgba(20, 20, 19, 0.1)",
           backgroundColor: "rgba(255, 255, 255, 0.7)",
           backdropFilter: "blur(8px)",
-          fontSize: 14,
+          fontSize: 21,
           fontWeight: 600,
           color: "#141413",
           letterSpacing: "0.02em",

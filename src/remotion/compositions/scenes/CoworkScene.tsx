@@ -8,7 +8,7 @@ const { fontFamily: interFont } = loadInter("normal", {
   subsets: ["latin"],
 });
 
-const WORKFLOW_IMAGE = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/claude-demo/1773249241790_6e962dmy76g_claude_workflow_diagram.png";
+const WORKFLOW_IMAGE = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/claude-demo/1773253589234_0o975ktoiwu_claude_workflow_v2.png";
 
 const WORKFLOW_STEPS = [
   { icon: "📋", label: "Meeting Transcripts", delay: 0 },
@@ -18,7 +18,7 @@ const WORKFLOW_STEPS = [
 
 export const CoworkScene: React.FC = () => {
   const frame = useCurrentFrame();
-  // Section label
+
   const labelOpacity = interpolate(frame, [0, 15], [0, 1], {
     extrapolateRight: "clamp",
   });
@@ -27,7 +27,6 @@ export const CoworkScene: React.FC = () => {
     easing: Easing.out(Easing.cubic),
   });
 
-  // Image reveal
   const imageScale = interpolate(frame, [20, 50], [1.05, 1], {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
@@ -46,162 +45,163 @@ export const CoworkScene: React.FC = () => {
         position: "absolute",
         inset: 0,
         fontFamily: interFont,
-        padding: "60px 80px",
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
+        padding: "0 120px",
       }}
     >
-      {/* Section badge */}
-      <div
-        style={{
-          opacity: labelOpacity,
-          transform: `translateX(${labelX}px)`,
-          marginBottom: 16,
-        }}
-      >
-        <span
+      {/* Left text content */}
+      <div style={{ flex: "0 0 auto", maxWidth: 720 }}>
+        {/* Section badge */}
+        <div
           style={{
-            fontSize: 13,
-            fontWeight: 700,
-            color: "#1A73E8",
-            textTransform: "uppercase" as const,
-            letterSpacing: "0.12em",
-            padding: "6px 14px",
-            borderRadius: 6,
-            backgroundColor: "rgba(26, 115, 232, 0.08)",
+            opacity: labelOpacity,
+            transform: `translateX(${labelX}px)`,
+            marginBottom: 24,
           }}
         >
-          Flagship Feature
-        </span>
-      </div>
+          <span
+            style={{
+              fontSize: 18,
+              fontWeight: 700,
+              color: "#1A73E8",
+              textTransform: "uppercase" as const,
+              letterSpacing: "0.12em",
+              padding: "8px 20px",
+              borderRadius: 8,
+              backgroundColor: "rgba(26, 115, 232, 0.08)",
+            }}
+          >
+            Flagship Feature
+          </span>
+        </div>
 
-      {/* Title */}
-      <FadeInWords
-        stagger={0.1}
-        duration={0.5}
-        ease="power3.out"
-        startFrom={8}
-        style={{
-          fontSize: 52,
-          fontWeight: 800,
-          color: "#141413",
-          letterSpacing: "-0.03em",
-          lineHeight: 1.1,
-          marginBottom: 12,
-          maxWidth: 550,
-        }}
-      >
-        <span style={{ textWrap: "balance" }}>Meet Cowork</span>
-      </FadeInWords>
+        {/* Title */}
+        <FadeInWords
+          stagger={0.1}
+          duration={0.5}
+          ease="power3.out"
+          startFrom={8}
+          style={{
+            fontSize: 78,
+            fontWeight: 800,
+            color: "#141413",
+            letterSpacing: "-0.03em",
+            lineHeight: 1.1,
+            marginBottom: 20,
+          }}
+        >
+          <span style={{ textWrap: "balance" }}>Meet Cowork</span>
+        </FadeInWords>
 
-      {/* Subtitle */}
-      <FadeInWords
-        stagger={0.06}
-        duration={0.4}
-        ease="power2.out"
-        startFrom={22}
-        style={{
-          fontSize: 20,
-          fontWeight: 400,
-          color: "rgba(20, 20, 19, 0.55)",
-          lineHeight: 1.5,
-          maxWidth: 480,
-          marginBottom: 36,
-        }}
-      >
-        <span style={{ textWrap: "balance" }}>
-          Automate complex workflows — from analyzing meeting transcripts to building presentation decks.
-        </span>
-      </FadeInWords>
+        {/* Subtitle */}
+        <FadeInWords
+          stagger={0.06}
+          duration={0.4}
+          ease="power2.out"
+          startFrom={22}
+          style={{
+            fontSize: 28,
+            fontWeight: 400,
+            color: "rgba(20, 20, 19, 0.65)",
+            lineHeight: 1.5,
+            maxWidth: 640,
+            marginBottom: 48,
+          }}
+        >
+          <span style={{ textWrap: "balance" }}>
+            Automate complex workflows — from analyzing meeting transcripts to building presentation decks.
+          </span>
+        </FadeInWords>
 
-      {/* Workflow steps */}
-      <div
-        style={{
-          display: "flex",
-          gap: 16,
-          alignItems: "center",
-          marginBottom: 36,
-        }}
-      >
-        {WORKFLOW_STEPS.map((step, i) => {
-          const stepOpacity = interpolate(
-            frame,
-            [35 + step.delay, 50 + step.delay],
-            [0, 1],
-            { extrapolateRight: "clamp" }
-          );
-          const stepY = interpolate(
-            frame,
-            [35 + step.delay, 50 + step.delay],
-            [15, 0],
-            { extrapolateRight: "clamp", easing: Easing.out(Easing.back(1.4)) }
-          );
-          const arrowOpacity = i < WORKFLOW_STEPS.length - 1
-            ? interpolate(
-                frame,
-                [48 + step.delay, 56 + step.delay],
-                [0, 1],
-                { extrapolateRight: "clamp" }
-              )
-            : 0;
+        {/* Workflow steps */}
+        <div
+          style={{
+            display: "flex",
+            gap: 20,
+            alignItems: "center",
+          }}
+        >
+          {WORKFLOW_STEPS.map((step, i) => {
+            const stepOpacity = interpolate(
+              frame,
+              [35 + step.delay, 50 + step.delay],
+              [0, 1],
+              { extrapolateRight: "clamp" }
+            );
+            const stepY = interpolate(
+              frame,
+              [35 + step.delay, 50 + step.delay],
+              [15, 0],
+              { extrapolateRight: "clamp", easing: Easing.out(Easing.back(1.4)) }
+            );
+            const arrowOpacity = i < WORKFLOW_STEPS.length - 1
+              ? interpolate(
+                  frame,
+                  [48 + step.delay, 56 + step.delay],
+                  [0, 1],
+                  { extrapolateRight: "clamp" }
+                )
+              : 0;
 
-          return (
-            <React.Fragment key={i}>
-              <div
-                style={{
-                  opacity: stepOpacity,
-                  transform: `translateY(${stepY}px)`,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "10px 18px",
-                  borderRadius: 12,
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  border: "1px solid rgba(20, 20, 19, 0.08)",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                }}
-              >
-                <span style={{ fontSize: 22 }}>{step.icon}</span>
-                <span
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: "#141413",
-                  }}
-                >
-                  {step.label}
-                </span>
-              </div>
-              {i < WORKFLOW_STEPS.length - 1 && (
+            return (
+              <React.Fragment key={i}>
                 <div
                   style={{
-                    opacity: arrowOpacity,
-                    color: "#1A73E8",
-                    fontSize: 20,
-                    fontWeight: 700,
+                    opacity: stepOpacity,
+                    transform: `translateY(${stepY}px)`,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    padding: "14px 24px",
+                    borderRadius: 16,
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    border: "1px solid rgba(20, 20, 19, 0.08)",
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
                   }}
                 >
-                  →
+                  <span style={{ fontSize: 30 }}>{step.icon}</span>
+                  <span
+                    style={{
+                      fontSize: 19,
+                      fontWeight: 600,
+                      color: "#141413",
+                    }}
+                  >
+                    {step.label}
+                  </span>
                 </div>
-              )}
-            </React.Fragment>
-          );
-        })}
+                {i < WORKFLOW_STEPS.length - 1 && (
+                  <div
+                    style={{
+                      opacity: arrowOpacity,
+                      color: "#1A73E8",
+                      fontSize: 28,
+                      fontWeight: 700,
+                    }}
+                  >
+                    →
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Workflow image */}
+      {/* Workflow image - right side */}
       <div
         style={{
           position: "absolute",
-          right: 60,
+          right: 90,
           top: "50%",
           transform: `translateY(-50%) scale(${imageScale})`,
           opacity: imageOpacity,
-          width: 560,
-          height: 350,
-          borderRadius: 16,
+          width: 780,
+          height: 480,
+          borderRadius: 20,
           overflow: "hidden",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06)",
+          boxShadow: "0 24px 80px rgba(0,0,0,0.12), 0 6px 24px rgba(0,0,0,0.06)",
           clipPath: `inset(0 ${imageClip}% 0 0)`,
         }}
       >
